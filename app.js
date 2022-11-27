@@ -12,6 +12,28 @@ class Arbol {
   constructor() {
     this.raiz = null;
     this.primero = null;
-    this.anterior = null;
+  }
+
+  trasnformar(nuevo) {
+    let vector = new Array();
+    for (let i = 0; i < nuevo.length; i++) {
+      vector.push(new Nodo(nuevo[i]));
+    }
+  }
+
+  agregarExp(nuevo) {
+    let exp = this.trasnformar(nuevo);
+    i = 0;
+    while (i < exp.length) {
+      if (!this.primero) {
+        this.primero = exp[i];
+        this.primero.sig = exp[i + 1];
+      } else {
+        exp[i].sig = exp[i + 1];
+        exp[i].ant = exp[i - 1];
+      }
+      i++;
+    }
+    return exp;
   }
 }
