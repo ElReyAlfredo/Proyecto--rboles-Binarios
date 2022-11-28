@@ -101,9 +101,86 @@ class Arbol {
     return [this.postorden(), this.preorden()];
   }
 
-  preorden() {}
+  preorden() {
+    this.pre = "";
+    if (this.raiz == null) {
+      return false;
+    } else {
+      this.pr(this.raiz);
+    }
+    return this.pre;
+  }
 
-  postorden() {}
+  postorden() {
+    this.post = "";
+    if (this.raiz == null) {
+      return false;
+    } else {
+      this.po(this.raiz);
+    }
+    return this.post;
+  }
+
+  pr(nuevo) {
+    this.pre += nuevo.simbolo;
+    if (nuevo.hiz != null) {
+      this.pr(nuevo.hiz);
+    }
+    if (nuevo.hde != null) {
+      this.pr(nuevo.hde);
+    }
+  }
+
+  po(nuevo) {
+    if (nuevo.hiz != null) {
+      this.po(nuevo.hiz);
+    }
+    if (nuevo.hde != null) {
+      this.po(nuevo.hde);
+    }
+    this.post += nuevo.simbolo;
+  }
+
+  operacionPreorden(exp) {
+    let pila = new Array();
+    let i = exp.length;
+    while (i >= 0) {
+      if (exp[i] == "+" || exp[i] == "-" || exp[i] == "*" || exp[i] == "/") {
+        let derecha = +pila.pop();
+        let izquiera = +pila.pop();
+        pila.push(this.operaciones(exp[i], derecha, izquiera));
+      } else {
+        pila.push(exp[i]);
+      }
+      i--;
+    }
+
+    return pila.pop();
+  }
+
+  operacionPostorden(exp) {
+    let pila = new Array();
+    let i = 0;
+    while (i < exp.length) {
+      if (exp[i] == "+" || exp[i] == "-" || exp[i] == "*" || exp[i] == "/") {
+        let derecha = +pila.pop();
+        let izquiera = +pila.pop();
+        pila.push(this.operaciones(exp[i], izquiera, derecha));
+      } else {
+        pila.push(exp[i]);
+      }
+      i++;
+    }
+    return pila.pop();
+  }
 }
 
 let arbol = new Arbol();
+let postorden = "";
+let preorden = "";
+//AQUI ABAJO INSERTE LA EXPRESION DONDE DICE isertarExpresion;
+let insertarExpresion = "1-4*5/2*9";
+console.log(arbol.agregarExp(insertarExpresion));
+[postorden, preorden] = arbol.analizar(insertarExpresion);
+console.log("Visualizar el árbol:");
+console.log(arbol.raiz);
