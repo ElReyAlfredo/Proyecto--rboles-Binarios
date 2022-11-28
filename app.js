@@ -173,6 +173,20 @@ class Arbol {
     }
     return pila.pop();
   }
+
+  operaciones(operacion, izquiera, derecha) {
+    let resultado;
+    if (operacion === "*") {
+      resultado = izquiera * derecha;
+    } else if (operacion === "/") {
+      resultado = izquiera / derecha;
+    } else if (operacion === "+") {
+      resultado = izquiera + derecha;
+    } else if (operacion === "-") {
+      resultado = izquiera - derecha;
+    }
+    return resultado;
+  }
 }
 
 let arbol = new Arbol();
@@ -184,3 +198,7 @@ console.log(arbol.agregarExp(insertarExpresion));
 [postorden, preorden] = arbol.analizar(insertarExpresion);
 console.log("Visualizar el árbol:");
 console.log(arbol.raiz);
+console.log(`Preorden: ${preorden}`);
+console.log(`Postorden: ${postorden}`);
+console.log(`Resultado en preorden ${arbol.operacionPreorden(preorden)}`);
+console.log(`Resultado en postorden ${arbol.operacionPostorden(postorden)}`);
