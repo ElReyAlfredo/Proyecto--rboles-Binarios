@@ -39,4 +39,71 @@ class Arbol {
     }
     return exp;
   }
+
+  analizar() {
+    let raiz = null;
+    let temp = this.primero;
+    while (temp != null) {
+      if (temp.simbolo.includes("*") || temp.simbolo.includes("/")) {
+        temp.hde = temp.sig;
+        temp.hiz = temp.ant;
+
+        if (temp.sig.sig == null && temp.ant.ant == null) {
+          temp.sig = null;
+          temp.ant = null;
+        } else if (temp.sig.sig == null) {
+          temp.sig = null;
+          temp.ant = temp.ant.ant;
+          temp.ant.sig = temp;
+        } else if (temp.ant.ant == null) {
+          temp.ant = null;
+          temp.sig = temp.sig.sig;
+          temp.sig.ant = temp;
+        } else {
+          temp.sig = temp.sig.sig;
+          temp.ant = temp.ant.ant;
+          temp.sig.ant = temp;
+          temp.ant.sig = temp;
+        }
+        raiz = temp;
+      }
+      temp = temp.sig;
+    }
+    this.raiz = raiz;
+
+    temp = this.primero;
+    while (temp != null) {
+      if (temp.simbolo.includes("-") || temp.simbolo.includes("+")) {
+        temp.hde = temp.sig;
+        temp.hiz = temp.ant;
+        if (temp.sig.sig == null && temp.ant.ant == null) {
+          temp.si = null;
+          temp.ant = null;
+        } else if (temp.sig.sig == null) {
+          temp.sig = null;
+          temp.ant = temp.ant.ant;
+          temp.ant.sig = temp;
+        } else if (temp.ant.ant == null) {
+          temp.ant = null;
+          temp.sig = temp.sig.sig;
+          temp.sig.ant = temp;
+        } else {
+          temp.sig = temp.sig.sig;
+          temp.ant = temp.ant.ant;
+          temp.sig.ant = temp;
+          temp.ant.sig = temp;
+        }
+        raiz = temp;
+      }
+      temp = temp.sig;
+    }
+    this.raiz = raiz;
+    return [this.postorden(), this.preorden()];
+  }
+
+  preorden() {}
+
+  postorden() {}
 }
+
+let arbol = new Arbol();
